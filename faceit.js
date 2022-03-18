@@ -15,12 +15,11 @@ async function getElo(steam64ids, connection) {
           },
         })
         .then((res) => {
-        //  console.log(steam64id);
-         elos.push(res.data.steam_nickname + " has "  + res.data.games.csgo.faceit_elo + "Elo");
+       //  elos.push(res.data.steam_nickname + " has "  + res.data.games.csgo.faceit_elo + "Elo");
+          elos.push(res.data.games.csgo.faceit_elo);
         })
         .catch((err) => {
-          // console.log(steam64id);
-          // console.log(err);
+          console.log("faceit not found");
         });
       
     })

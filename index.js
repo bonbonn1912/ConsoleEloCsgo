@@ -43,17 +43,12 @@ async function listen() {
 
 listen();
 
-function getSteamID(con) {
-  getRandomJoke().then((joke) => {
-    sendElo(joke, con);
-  });
-}
 
-async function sendElo(joke, con) {
- // console.log(joke);
+
+async function sendElo(elo, con) {
     try{
-     // await con.exec(`say ${joke}`);
-       await con.exec(`echo ${joke}`);
+      await con.exec(`say ${elo}`);
+     //  await con.exec(`echo ${elo}`);
        
     }catch(e){
         console.log(e);
@@ -61,11 +56,4 @@ async function sendElo(joke, con) {
  
 }
 
-function getRandomJoke() {
-  return new Promise((resolve, reject) => {
-    axios.get("https://api.chucknorris.io/jokes/random").then((res) => {
-      console.log(res.data.value);
-      resolve(res.data.value);
-    });
-  });
-}
+
