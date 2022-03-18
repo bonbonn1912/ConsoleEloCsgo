@@ -26,11 +26,14 @@ async function listen() {
   }
   const socket = connection.getSocket();
   socket.on("data", async (data) => {
+    let ids = [];
+    let res = "";
+    console.log(ids.length);
     const msg = data.toString("utf8");
     if (msg.includes("STEAM_")) {
-      let id = await game.getSteam64Ids(msg);
-      faceit.getElo(id, connection).then((elos) => {
-        let res = elos.join(" |  ");
+      ids = await game.getSteam64Ids(msg);
+      faceit.getElo(ids, connection).then((elos) => {
+        res = elos.join(" |  ");
         console.log(res);
         sendElo(res, connection);
       });
@@ -42,8 +45,8 @@ listen();
 
 async function sendElo(elo, con) {
   try {
-    await con.exec(`say ${elo}`);
-    //  await con.exec(`echo ${elo}`);
+    // await con.exec(`say ${elo}`);
+    await con.exec(`echo ${elo}`);
   } catch (e) {
     console.log(e);
   }
