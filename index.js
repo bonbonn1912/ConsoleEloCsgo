@@ -43,24 +43,20 @@ async function listen() {
 listen();
 
 async function initMessage(elo, con) {
-
   (function myLoop(i) {
-    setTimeout(function() {
-     sendMessage(con, elo[i-1]) 
-      if (--i) myLoop(i);  
+    setTimeout(() => {
+      sendMessage(con, elo[i - 1]);
+      if (--i) myLoop(i);
     }, 700);
-  })(elo.length);    
+  })(elo.length);
 }
 
 async function sendMessage(con, msg) {
   try {
-   
-    if(msg[1] != "invalid user" && msg[0] != "no elo") {
+    if (msg[1] != "invalid user" && msg[0] != "no elo") {
       console.log(`say ${msg[1]} has ${msg[0]} elo`);
       await con.exec(`say ${msg[1]} has ${msg[0]} elo`);
-     // await con.exec(`echo ${msg[1]} has ${msg[0]} elo`);
-      
+      // await con.exec(`echo ${msg[1]} has ${msg[0]} elo`);
     }
-    
   } catch (e) {}
 }
