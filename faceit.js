@@ -26,7 +26,7 @@ async function getFaceitElo(steam64id) {
         resolve([res.data.games.csgo.faceit_elo, res.data.steam_nickname]);
       })
       .catch((err) => {
-        resolve(["invalid username", "no faceit"]);
+        resolve(["no elo", "invalid user"]);
       });
   });
 }
