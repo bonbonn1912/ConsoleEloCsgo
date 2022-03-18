@@ -2,7 +2,7 @@
 print faceit elo ingame via telnet
 
 ## Description
-Gets faceit elo via the officials faceit api and prints it either in your console or (team-) chat. 
+Gets faceit elo via the official faceit api and prints it either in your console or (team-) chat. 
 This is a very early and error prone version
 
 ## Setup
