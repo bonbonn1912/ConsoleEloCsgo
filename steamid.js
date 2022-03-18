@@ -1,6 +1,7 @@
 let steam = require("steamidconvert")();
 let steamids = [];
 let steam64ids = [];
+let lines = [];
 
 function getSteam64Ids(statusmessage) {
   statusmessage.split("#").forEach((line) => {
