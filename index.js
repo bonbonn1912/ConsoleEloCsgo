@@ -52,8 +52,7 @@ async function sendElo(elo, con) {
     elo.forEach((entry) => {
       echo += `${entry[0]} : ${entry[1]} |`;
     });
-     await con.exec(`say ${sayString}`);
-    // await con.exec(`echo ${echo}`);
+     await con.exec(`say ${sayString}; echo ${echo}`);
   } catch (e) {
     console.log(e);
   }
