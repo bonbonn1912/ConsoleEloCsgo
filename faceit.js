@@ -3,6 +3,7 @@ require("dotenv").config();
 
 async function getElo(steam64ids) {
   let elos = [];
+  console.log(steam64ids);
   await Promise.all(
     steam64ids.map(async (steam64id) => {
       let eloResp = await getFaceitElo(steam64id);
@@ -22,6 +23,7 @@ async function getFaceitElo(steam64id) {
         },
       })
       .then((res) => {
+        console.log([res.data.games.csgo.faceit_elo, res.data.steam_nickname]);
         resolve([res.data.games.csgo.faceit_elo, res.data.steam_nickname]);
       })
       .catch((err) => {

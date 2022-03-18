@@ -46,7 +46,7 @@ async function initMessage(elo, con) {
 
   (function myLoop(i) {
     setTimeout(function() {
-     sendMessage(con, elo[i]) 
+     sendMessage(con, elo[i-1]) 
       if (--i) myLoop(i);  
     }, 700);
   })(elo.length);    

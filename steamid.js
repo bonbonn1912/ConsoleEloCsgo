@@ -10,7 +10,7 @@ function getSteam64Ids(statusmessage) {
     }
   });
 
-  for (let i = 1; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i++) {
     var splittet = lines[i].split('"');
     if (splittet[2] != undefined) {
       steamids.push(splittet[2].split(" ")[1]);
