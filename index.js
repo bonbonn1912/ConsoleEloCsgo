@@ -27,9 +27,11 @@ async function listen() {
   const socket = connection.getSocket();
   socket.on("data", async (data) => {
     let ids = [];
-    let res = "";
     const msg = data.toString("utf8");
-    if (msg.includes("STEAM_") || msg.includes("getelo")) {
+    if (msg.includes("getelo")) {
+      await connection.exec("status");
+    }
+    if (msg.includes("STEAM_")) {
       ids = await game.getSteam64Ids(msg);
       faceit.getElo(ids, connection).then((elos) => {
         sendElo(elos, connection);
@@ -50,8 +52,8 @@ async function sendElo(elo, con) {
     elo.forEach((entry) => {
       echo += `${entry[0]} : ${entry[1]} |`;
     });
-    // await con.exec(`say ${sayString}`);
-     await con.exec(`echo ${echo}`);
+     await con.exec(`say ${sayString}`);
+    // await con.exec(`echo ${echo}`);
   } catch (e) {
     console.log(e);
   }
