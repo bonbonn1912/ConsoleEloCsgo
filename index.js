@@ -2,7 +2,6 @@ const config = require("./config.json");
 const Telnet = require("telnet-client");
 const game = require("./steamid");
 const faceit = require("./faceit");
-const { default: axios } = require("axios");
 const RETRY_TIMEOUT = 10 * 1000;
 
 async function listen() {
@@ -28,32 +27,24 @@ async function listen() {
   const socket = connection.getSocket();
   socket.on("data", async (data) => {
     const msg = data.toString("utf8");
-    if(msg.includes("STEAM_")){
+    if (msg.includes("STEAM_")) {
       var id = await game.getSteam64Ids(msg);
       faceit.getElo(id, connection).then((elos) => {
         var res = elos.join(" |  ");
         console.log(res);
         sendElo(res, connection);
-       
       });
-    };
-    
+    }
   });
 }
 
 listen();
 
-
-
 async function sendElo(elo, con) {
-    try{
-      await con.exec(`say ${elo}`);
-     //  await con.exec(`echo ${elo}`);
-       
-    }catch(e){
-        console.log(e);
-    }
- 
+  try {
+    await con.exec(`say ${elo}`);
+    //  await con.exec(`echo ${elo}`);
+  } catch (e) {
+    console.log(e);
+  }
 }
-
-

@@ -1,9 +1,8 @@
 var axios = require("axios");
 require("dotenv").config();
 
-async function getElo(steam64ids, connection) {
+async function getElo(steam64ids) {
   var elos = [];
-  var number = steam64ids.length;
   let i = 0;
   return new Promise((resolve, reject) => {
      steam64ids.forEach((steam64id) => {
