@@ -53,7 +53,7 @@ async function sendElo(elo, con) {
     let echo = "";
     elo.forEach((entry) => {
       if(entry[1] != "invalid user" && entry[0] != "no elo") {
-      echo += `${entry[0]} : ${entry[1]} |`;
+      echo += `${entry[1]} : ${entry[0]} | `;
       }
     });
      await con.exec(`say ${sayString}; echo ${echo}`);
