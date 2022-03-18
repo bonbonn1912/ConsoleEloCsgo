@@ -28,9 +28,9 @@ async function listen() {
   socket.on("data", async (data) => {
     const msg = data.toString("utf8");
     if (msg.includes("STEAM_")) {
-      var id = await game.getSteam64Ids(msg);
+      let id = await game.getSteam64Ids(msg);
       faceit.getElo(id, connection).then((elos) => {
-        var res = elos.join(" |  ");
+        let res = elos.join(" |  ");
         console.log(res);
         sendElo(res, connection);
       });
