@@ -23,10 +23,10 @@ async function getFaceitElo(steam64id) {
         },
       })
       .then((res) => {
-        resolve(res.data.games.csgo.faceit_elo);
+        resolve([res.data.games.csgo.faceit_elo, res.data.steam_nickname]);
       })
       .catch((err) => {
-        resolve("no faceit");
+        resolve(["invalid username", "no faceit"]);
       });
   });
 }
