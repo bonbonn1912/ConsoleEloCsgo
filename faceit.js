@@ -3,7 +3,6 @@ require("dotenv").config();
 
 async function getElo(steam64ids) {
   let elos = [];
-  console.log(steam64ids);
   await Promise.all(
     steam64ids.map(async (steam64id) => {
       let eloResp = await getFaceitElo(steam64id);

@@ -34,7 +34,7 @@ async function listen() {
     if (msg.includes("STEAM_")) {
       ids = await game.getSteam64Ids(msg);
       faceit.getElo(ids, connection).then((elos) => {
-        sendElo(elos, connection);
+        initMessage(elos, connection);
       });
     }
   });
@@ -42,22 +42,25 @@ async function listen() {
 
 listen();
 
-async function sendElo(elo, con) {
+async function initMessage(elo, con) {
+
+  (function myLoop(i) {
+    setTimeout(function() {
+     sendMessage(con, elo[i]) 
+      if (--i) myLoop(i);  
+    }, 700);
+  })(elo.length);    
+}
+
+async function sendMessage(con, msg) {
   try {
-    let sayString = "";
-    elo.forEach((entry) => {
-      if(entry[1] != "invalid user" && entry[0] != "no elo") {
-      sayString += `${entry[0]} |`;
-      }
-    });
-    let echo = "";
-    elo.forEach((entry) => {
-      if(entry[1] != "invalid user" && entry[0] != "no elo") {
-      echo += `${entry[1]} : ${entry[0]} | `;
-      }
-    });
-     await con.exec(`say ${sayString}; echo ${echo}`);
-  } catch (e) {
-    console.log(e);
-  }
+   
+    if(msg[1] != "invalid user" && msg[0] != "no elo") {
+      console.log(`say ${msg[1]} has ${msg[0]} elo`);
+      await con.exec(`say ${msg[1]} has ${msg[0]} elo`);
+     // await con.exec(`echo ${msg[1]} has ${msg[0]} elo`);
+      
+    }
+    
+  } catch (e) {}
 }
