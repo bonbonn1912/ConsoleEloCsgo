@@ -15,6 +15,6 @@ This is a very early and error prone version
 ## Usage
     Add the following launch option to CS:GO  
      -netconport 2121  
-     type "status" into your console an see the Faceit Elo after ~3 Seconds
+     type "status" or "getelo" into the console so see the results. 
      
 ## There is no risk of being banned
