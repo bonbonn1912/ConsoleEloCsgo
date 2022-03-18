@@ -1,9 +1,8 @@
 let steam = require("steamidconvert")();
-let steamids = [];
-let steam64ids = [];
-let lines = [];
-
 function getSteam64Ids(statusmessage) {
+  let steamids = [];
+  let steam64ids = [];
+  let lines = [];
   statusmessage.split("#").forEach((line) => {
     if (line.includes("BOT") && line != undefined) {
     } else if (line.includes("STEAM_")) {
