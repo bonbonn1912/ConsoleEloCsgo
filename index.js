@@ -2,6 +2,7 @@ const config = require("./config.json");
 const Telnet = require("telnet-client");
 const game = require("./steamid");
 const faceit = require("./faceit");
+const mm = require("./utils/mm");
 const RETRY_TIMEOUT = 10 * 1000;
 
 async function listen() {
@@ -25,17 +26,32 @@ async function listen() {
     return;
   }
   const socket = connection.getSocket();
+  let call = 1;
   socket.on("data", async (data) => {
-    let ids = [];
+   
     const msg = data.toString("utf8");
     if (msg.includes("getelo")) {
-      await connection.exec("status");
+      console.log("command triggered")
+      try{
+        await connection.exec("status");
+      }catch(e){
+        console.log("error in status")
+      }
+      
     }
     if (msg.includes("STEAM_")) {
-      ids = await game.getSteam64Ids(msg);
-      faceit.getElo(ids, connection).then((elos) => {
+      console.log("Nachricht NR: " + call++);
+      let ids64 = [];
+      let ids = [];
+      ids64 = game.getSteam64Ids(msg);
+      ids =  game.getSteamIds(msg);
+      console.log(ids);
+      console.log("---------------------------------------");
+      let url = mm.createUrl(ids);
+     console.log(url);
+    /*  faceit.getElo(ids64, connection).then((elos) => {
         initMessage(elos, connection);
-      });
+      });  */
     }
   });
 }

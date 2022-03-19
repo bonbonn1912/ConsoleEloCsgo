@@ -23,6 +23,27 @@ function getSteam64Ids(statusmessage) {
     return steam64ids;
 }
 
+function getSteamIds(statusmessage){
+  console.log("in getSteamIds");
+  let steamids = [];
+  let lines = [];
+  statusmessage.split("#").forEach((line) => {
+    if (line.includes("BOT") && line != undefined) {
+    } else if (line.includes("STEAM_")) {
+      lines.push(line);
+    }
+  });
+  for (let i = 0; i < lines.length; i++) {
+    var splittet = lines[i].split('"');
+    if (splittet[2] != undefined) {
+      steamids.push(splittet[2].split(" ")[1]);
+    }
+  }
+  return steamids;
+
+}
+
 module.exports = {
   getSteam64Ids,
+  getSteamIds,
 };
