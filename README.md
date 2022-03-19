@@ -10,7 +10,7 @@ This is a very early and error prone version
     cd ConsoleEloCsgo
     create .env file with your faceit api key (It is planned to use a third party api that does not require an api key)
     npm install
-    node index.js
+    npm run build 
     
 ## Usage
     Add the following launch option to CS:GO  
