@@ -31,7 +31,7 @@ async function listen() {
     var msg = data.toString("utf8");
     if (msg.includes("STEAM_") ) {
       if(process.env.NODE_ENV.trim() !== "production"){
-       var msg = example.statusmessage;
+       var msg = example.statusmessage3;
       }else {
         var msg = data.toString("utf8");
       }
