@@ -27,13 +27,10 @@ async function listen() {
     return;
   }
   const socket = connection.getSocket();
-  let test = true;
+  let test = false;
   socket.on("data", async (data) => {
-    if(process.env.NODE_ENV === 'production'){
-      var msg = data.toString("utf8");
-    }else{
-      var msg = example.statusmessage;
-    }
+    const msg = data.toString("utf8");
+
    if (msg.includes("getelo")) {
       if(test){
         let playerList = [];
