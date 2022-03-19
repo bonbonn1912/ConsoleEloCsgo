@@ -1,9 +1,9 @@
 const config = require("./config.json");
 const Telnet = require("telnet-client");
-const game = require("./steamid");
-const faceit = require("./faceit");
+const game = require("./utils/steamid");
+const faceit = require("./utils/faceit");
 const mm = require("./utils/mm");
-const example = require("./example");
+const example = require("./utils/example");
 const RETRY_TIMEOUT = 10 * 1000;
 
 async function listen() {
@@ -27,65 +27,53 @@ async function listen() {
     return;
   }
   const socket = connection.getSocket();
-  let test = false;
   socket.on("data", async (data) => {
-    const msg = data.toString("utf8");
-
-   if (msg.includes("getelo")) {
-      if(test){
-        let playerList = [];
-        ids = game.getSteamIds(example.statusmessage);
-        let url =  mm.createUrl(ids);
-        let steamusernames = game.getSteamUsername(example.statusmessage);
-        let players = await mm.getMMRank(url, ids, steamusernames);
-        faceit.getElo(players).then((newPlayers) => {
-          for(let i = 0; i<newPlayers.length; i++){
-            playerList.push(newPlayers[i]);
-          } 
-          initMessage(playerList, connection);
-        }); 
-        
-      }else{
-        console.log("command triggered")
-        try{
-          await connection.exec("status");
-        }catch(e){
-          console.log("error in status")
-        }
+    var msg = data.toString("utf8");
+    if (msg.includes("STEAM_") ) {
+      if(process.env.NODE_ENV.trim() !== "production"){
+       var msg = example.statusmessage;
+      }else {
+        var msg = data.toString("utf8");
       }
-      
-    }
-    if (msg.includes("STEAM_")) {
-      console.log("status triggered");
       let playerList = [];
-        ids = game.getSteamIds(msg);
-        let url =  mm.createUrl(ids);
-        let steamusernames = game.getSteamUsername(msg);
-        let players = await mm.getMMRank(url, ids, steamusernames);
-        faceit.getElo(players).then((newPlayers) => {
-          for(let i = 0; i<newPlayers.length; i++){
-            playerList.push(newPlayers[i]);
-          } 
-          initMessage(playerList, connection);
-        });
-    }
+      ids = game.getSteamIds(msg);
+      let url = mm.createUrl(ids);
+      let steamusernames = game.getSteamUsername(msg);
+      let players = await mm.getMMRank(url, ids, steamusernames);
+      faceit.getElo(players).then((newPlayers) => {
+        for (let i = 0; i < newPlayers.length; i++) {
+          playerList.push(newPlayers[i]);
+        }
+        initMessage(playerList, connection);
+      });
+    }else if(msg.includes("getelo")) {
+      try {
+        await connection.exec("status");
+      } catch (e) {
+        console.log("error in status");
+      }
+    } 
   });
 }
 
-listen();
-
 async function initMessage(playerList, con) {
-
   (function myLoop(i) {
-    setTimeout(function() {
-     sendMessage(con, playerList[i-1]) 
-      if (--i) myLoop(i);  
+    setTimeout(function () {
+      sendMessage(con, playerList[i - 1]);
+      if (--i) myLoop(i);
     }, 700);
-  })(playerList.length);    
+  })(playerList.length);
 }
 async function sendMessage(con, singePlayer) {
   try {
-       await con.exec(`say ${singePlayer.steamusername}, MM-Rank: ${singePlayer.mmRank} / Faceit: ${singePlayer.elo == "no elo" ? "No Acc found" : singePlayer.elo}`);
-     // await con.exec(`echo ${msg[1]} has ${msg[0]} elo`);       
+    await con.exec(
+      `say ${singePlayer.steamusername}, MM-Rank: ${
+        singePlayer.mmRank
+      } / Faceit: ${
+        singePlayer.elo == "no elo" ? "No Acc found" : singePlayer.elo
+      }`
+    );
   } catch (e) {}
 }
+
+listen();
