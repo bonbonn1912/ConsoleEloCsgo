@@ -7,7 +7,6 @@ async function getElo(players) {
    let eloResp = await getFaceitElo(player.steam64ID);
    player.addElo(eloResp[0]);
    player.addUsername(eloResp[1]);
-  // console.log("Player : " + player.username + " has " + eloResp[0] + " elo");
    newPlayers.push(player);
   }));
   return newPlayers;
@@ -23,7 +22,6 @@ async function getFaceitElo(steam64id) {
         },
       })
       .then((res) => {
-        console.log([res.data.games.csgo.faceit_elo, res.data.steam_nickname]);
         resolve([res.data.games.csgo.faceit_elo, res.data.steam_nickname]);
       })
       .catch((err) => {
