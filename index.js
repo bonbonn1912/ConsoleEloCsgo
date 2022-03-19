@@ -56,17 +56,6 @@ async function listen() {
   });
 }
 
-<<<<<<< HEAD
-listen();
-
-async function initMessage(elo, con) {
-  (function myLoop(i) {
-    setTimeout(() => {
-      sendMessage(con, elo[i - 1]);
-      if (--i) myLoop(i);
-    }, 700);
-  })(elo.length);
-=======
 async function initMessage(playerList, con) {
   (function myLoop(i) {
     setTimeout(function () {
@@ -74,17 +63,9 @@ async function initMessage(playerList, con) {
       if (--i) myLoop(i);
     }, 700);
   })(playerList.length);
->>>>>>> mm-ranks
 }
 async function sendMessage(con, singePlayer) {
   try {
-<<<<<<< HEAD
-    if (msg[1] != "invalid user" && msg[0] != "no elo") {
-      console.log(`say ${msg[1]} has ${msg[0]} elo`);
-      await con.exec(`say ${msg[1]} has ${msg[0]} elo`);
-      // await con.exec(`echo ${msg[1]} has ${msg[0]} elo`);
-    }
-=======
     await con.exec(
       `say ${singePlayer.steamusername}, MM-Rank: ${
         singePlayer.mmRank
@@ -92,7 +73,6 @@ async function sendMessage(con, singePlayer) {
         singePlayer.elo == "no elo" ? "No Acc found" : singePlayer.elo
       }`
     );
->>>>>>> mm-ranks
   } catch (e) {}
 }
 
