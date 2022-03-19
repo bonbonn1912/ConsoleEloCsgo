@@ -1,6 +1,7 @@
 var axios = require("axios");
 require("dotenv").config();
 
+<<<<<<< HEAD:faceit.js
 async function getElo(steam64ids) {
   let elos = [];
   console.log(steam64ids);
@@ -11,6 +12,18 @@ async function getElo(steam64ids) {
     })
   );
   return elos;
+=======
+async function getElo(players) {
+  let newPlayers = [];
+  await Promise.all(players.map(async (player) => {
+   let eloResp = await getFaceitElo(player.steam64ID);
+   player.addElo(eloResp[0]);
+   player.addUsername(eloResp[1]);
+  // console.log("Player : " + player.username + " has " + eloResp[0] + " elo");
+   newPlayers.push(player);
+  }));
+  return newPlayers;
+>>>>>>> mm-ranks:utils/faceit.js
 }
 
 async function getFaceitElo(steam64id) {

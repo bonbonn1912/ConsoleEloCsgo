@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "dev" : "set NODE_ENV=development && node index.js",
+    "build" : "set NODE_ENV=production && node index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   "dependencies": {
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
+    "puppeteer": "^13.5.1",
     "steamidconvert": "^0.2.4",
     "telnet-client": "^2.0.2"
   }
