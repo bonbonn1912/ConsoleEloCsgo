@@ -40,12 +40,12 @@ async function listen() {
       let url = mm.createUrl(ids);
       let steamusernames = game.getSteamUsername(msg);
       let players = await mm.getMMRank(url, ids, steamusernames);
-      faceit.getElo(players).then((newPlayers) => {
+       faceit.getElo(players).then((newPlayers) => {
         for (let i = 0; i < newPlayers.length; i++) {
           playerList.push(newPlayers[i]);
-        }
+        } 
         initMessage(playerList, connection);
-      });
+       }).catch((err) => {});
     }else if(msg.includes("getelo")) {
       try {
         await connection.exec("status");

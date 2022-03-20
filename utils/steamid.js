@@ -1,5 +1,3 @@
-
-
 function getPlayerLines(statusmessage){
   let lines =  [];
   statusmessage.split(/\n/).forEach((line) => {
