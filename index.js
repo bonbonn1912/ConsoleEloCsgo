@@ -57,13 +57,16 @@ async function listen() {
 }
 
 async function initMessage(playerList, con) {
-  (function myLoop(i) {
-    setTimeout(function () {
-      sendMessage(con, playerList[i - 1]);
-      if (--i) myLoop(i);
-    }, 700);
-  })(playerList.length);
+    for (let i = 0; i < playerList.length; i++) {
+      await sendMessage(con, playerList[i]);
+      setTimeout(() => {},550);
+    }
+   try {
+    await con.exec("say visit github.com/bonbonn1912/ConsoleEloCsgo for more information");
+   }catch(e){}
+
 }
+
 async function sendMessage(con, singePlayer) {
   try {
     await con.exec(

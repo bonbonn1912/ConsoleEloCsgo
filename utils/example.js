@@ -57,7 +57,7 @@ players : 9 humans, 0 bots (10/10 max) (not hibernating)
 # 12 11 "tihgor" STEAM_1:1:43110645 01:12 62 0 active 196608
 # 11 10 "FuNny #muse" STEAM_1:0:130130592 06:51 55 0 active 786432
 # 13 12 "BlechLiesl" STEAM_1:1:425567453 01:12 62 0 active 196608
-# 14 13 "jansiZERA" STEAM_1:1:126230937 01:12 97 0 active 196608
+# 14 13 "jansiZERA" STEAM_1:1:126230Y937 01:12 97 0 active 196608
 #end`
 
 module.exports = {
