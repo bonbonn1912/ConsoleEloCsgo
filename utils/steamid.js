@@ -1,5 +1,3 @@
-let steam = require("steamidconvert")();
-
 function getLines(statusmessage){
   let lines = [];
   statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
