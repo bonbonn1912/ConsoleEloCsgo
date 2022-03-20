@@ -3,7 +3,7 @@ function getSteam64Ids(statusmessage) {
   let steamids = [];
   let steam64ids = [];
   let lines = [];
-  statusmessage.split("#").forEach((line) => {
+  statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
     if (line.includes("BOT") && line != undefined) {
     } else if (line.includes("STEAM_")) {
       lines.push(line);
@@ -26,7 +26,7 @@ function getSteam64Ids(statusmessage) {
 function getSteamUsername(statusmessage){
   let usernames = [];
   let lines = [];
-  statusmessage.split("#").forEach((line) => {
+  statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
     if (line.includes("BOT") && line != undefined) {
     } else if (line.includes("STEAM_")) {
       lines.push(line);
@@ -45,7 +45,7 @@ function getSteamUsername(statusmessage){
 function getSteamIds(statusmessage){
   let steamids = [];
   let lines = [];
-  statusmessage.split("#").forEach((line) => {
+  statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
     if (line.includes("BOT") && line != undefined) {
     } else if (line.includes("STEAM_")) {
       lines.push(line);
