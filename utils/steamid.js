@@ -40,7 +40,7 @@ function getSteamUsername(statusmessage){
   let lines = getPlayerLines(statusmessage);
 
   for (let i = 0; i < lines.length; i++) {
-    var splittet = lines[i].split('"');
+    let splittet = lines[i].split('"');
     if (splittet[1] != undefined) {
       usernames.push(splittet[1]);
     }
