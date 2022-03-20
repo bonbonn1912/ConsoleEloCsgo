@@ -1,14 +1,13 @@
-# Print Faceit Elo ingame
+# Print MM Ranks and FaceIT elo ingame
 print faceit elo ingame via telnet
 
 ## Description
-Gets faceit elo via the official faceit api and prints it either in your console or (team-) chat. 
+Gets faceit elo via the official faceit api and the last known Matchmaking rank from csgostats.gg and prints them either in your console or (team-) chat. 
 This is a very early and error prone version
 
 ## Setup
     https://github.com/bonbonn1912/ConsoleEloCsgo
     cd ConsoleEloCsgo
-    create .env file with your faceit api key (It is planned to use a third party api that does not require an api key)
     npm install
     npm run build 
     

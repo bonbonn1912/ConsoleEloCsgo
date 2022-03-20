@@ -60,8 +60,30 @@ players : 9 humans, 0 bots (10/10 max) (not hibernating)
 # 14 13 "jansiZERA" STEAM_1:1:126230937 01:12 97 0 active 196608
 #end`
 
+let statusmessage4 = `Connected to =[A:1:249425929:19868]:0
+hostname: Valve CS:GO EU West Server (srcds113-fra2.271.319)
+version : 1.38.2.2 secure
+os      :  Linux
+type    :  official dedicated
+map     : cs_agency
+players : 10 humans, 0 bots (10/10 max) (not hibernating)
+
+# userid name uniqueid connected ping loss state rate
+#  3 2 "t0mN" STEAM_1:1:102541464 00:32 49 0 active 128000
+#  4 3 "Irrer Ire" STEAM_1:1:119657098 00:32 35 0 active 196608
+#  7 6 "Gosht" STEAM_1:1:20096452 00:32 50 0 active 196608
+#  8 7 "lebowski" STEAM_1:1:37795195 00:32 50 0 active 786432
+#  9 8 "X | knoCtXez" STEAM_1:1:15393478 00:32 48 0 active 786432
+# 10 9 "Kata Strophe" STEAM_1:1:510302464 00:32 64 0 active 196608
+# 11 10 "justtsude" STEAM_1:0:627977591 00:32 88 56 spawning 786432
+# 12 11 "likimarO⓽★✰✯☆✩" STEAM_1:0:150702462 00:32 118 0 active 65536
+# 13 12 "HNS" STEAM_1:0:51867633 00:32 66 81 active 196608
+# 14 13 "Βασιλακης Ανδρ" STEAM_1:0:80213994 00:32 116 0 active 196608
+#end`
+
 module.exports = {
     statusmessage1,
     statusmessage2,
-    statusmessage3
+    statusmessage3,
+    statusmessage4
 }
