@@ -11,20 +11,6 @@ function getLines(statusmessage){
   return lines;
 }
 
-
-function getSteam64Ids(statusmessage) {
-  
-  let steam64ids = [];
-  let lines = getLines(statusmessage);
-  let steamids = getSteam64Ids(lines);
-
-  steamids.forEach((steamid) => {
-    let steam64 = steam.convertTo64(steamid);
-    steam64ids.push(steam64);
-  });
-    return steam64ids;
-}
-
 function getSteamUsername(statusmessage){
 
   let usernames = [];
@@ -39,7 +25,7 @@ function getSteamUsername(statusmessage){
   return usernames;
 }
 
-function getSteamIds(statusmessage){
+ function getSteamIds(statusmessage){
   let steamids = [];
   let lines = getLines(statusmessage);
 
@@ -54,7 +40,6 @@ function getSteamIds(statusmessage){
 }
 
 module.exports = {
-  getSteam64Ids,
   getSteamIds,
   getSteamUsername,
 };
