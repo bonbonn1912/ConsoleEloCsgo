@@ -1,21 +1,33 @@
 let steam = require("steamidconvert")();
-function getSteam64Ids(statusmessage) {
-  let steamids = [];
-  let steam64ids = [];
-  let lines = [];
+
+function getPlayerLines(statusmessage){
+  let lines =  [];
   statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
     if (line.includes("BOT") && line != undefined) {
     } else if (line.includes("STEAM_")) {
       lines.push(line);
     }
   });
+  return lines;
+}
 
+function getElementFromLine(lines, index1, index2){
+  let steamids = [];
   for (let i = 1; i < lines.length; i++) {
     var splittet = lines[i].split('"');
     if (splittet[2] != undefined) {
-      steamids.push(splittet[2].split(" ")[1]);
+      steamids.push(splittet[index1].split(" ")[index2]);
     }
   }
+  return steamids;
+}
+
+function getSteam64Ids(statusmessage) {
+
+  let steam64ids = [];
+  let lines = getPlayerLines(statusmessage);
+  let steamids = getElementFromLine(lines, 2, 1);
+
   steamids.forEach((steamid) => {
     let steam64 = steam.convertTo64(steamid);
     steam64ids.push(steam64);
@@ -25,13 +37,8 @@ function getSteam64Ids(statusmessage) {
 
 function getSteamUsername(statusmessage){
   let usernames = [];
-  let lines = [];
-  statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
-    if (line.includes("BOT") && line != undefined) {
-    } else if (line.includes("STEAM_")) {
-      lines.push(line);
-    }
-  });
+  let lines = getPlayerLines(statusmessage);
+
   for (let i = 0; i < lines.length; i++) {
     var splittet = lines[i].split('"');
     if (splittet[1] != undefined) {
@@ -43,20 +50,9 @@ function getSteamUsername(statusmessage){
 }
 
 function getSteamIds(statusmessage){
-  let steamids = [];
-  let lines = [];
-  statusmessage.split(/#(\s+)(\d+)(\s)(\d+)(\s)/).forEach((line) => {
-    if (line.includes("BOT") && line != undefined) {
-    } else if (line.includes("STEAM_")) {
-      lines.push(line);
-    }
-  });
-  for (let i = 0; i < lines.length; i++) {
-    var splittet = lines[i].split('"');
-    if (splittet[2] != undefined) {
-      steamids.push(splittet[2].split(" ")[1]);
-    }
-  }
+
+  let lines = getPlayerLines(statusmessage);
+  let steamids = getElementFromLine(lines, 2, 1);
   return steamids;
 
 }
