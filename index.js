@@ -33,18 +33,18 @@ async function listen() {
     if (msg.match(/players : ([\d.]+) humans, /) && current_cmd != "" ){
       var players = msg.match(/([\d.]+) *humans/)[1];
       msg_log = msg_log + msg;
-      console.log(players);
+      //console.log(players);
     }
     if (msg.includes("STEAM_") && current_cmd != "") {
       if(process.env.NODE_ENV.trim() !== "production"){
        var msg = example.statusmessage3;
       }else {
          msg_log = msg_log + msg;
-        console.log(msg_log);
-        console.log("--------------")
+       // console.log(msg_log);
+        //console.log("--------------")
       }
       if (msg.includes("#end")){
-        console.log("end read");
+        //console.log("end read");
         
       
       let playerList = [];
