@@ -33,18 +33,17 @@ async function listen() {
     if (msg.match(/players : ([\d.]+) humans, /) && current_cmd != "" ){
       var players = msg.match(/([\d.]+) *humans/)[1];
       msg_log = msg_log + msg;
-      //console.log(players);
+  
     }
     if (msg.includes("STEAM_") && current_cmd != "") {
       if(process.env.NODE_ENV.trim() !== "production"){
        var msg = example.statusmessage3;
       }else {
          msg_log = msg_log + msg;
-       // console.log(msg_log);
-        //console.log("--------------")
+  
       }
       if (msg.includes("#end")){
-        //console.log("end read");
+    
         
       
       let playerList = [];
@@ -58,7 +57,6 @@ async function listen() {
         } 
 
         if (current_cmd == "getelo"){
-          //console.log(playerList.length);
           consoleMessage(playerList, connection);
           current_cmd="";
           msg_log = "";
@@ -102,8 +100,7 @@ async function consoleMessage(playerList, con) {
       } / Faceit: ${
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
       } \n`
-      //await sendMessage(con, playerList[i]);
-      //setTimeout(() => {},1000);
+  
     }
     sendMessage(con,0, message);
     //sendMessage(con,1000, "echo visit github.com/bonbonn1912/ConsoleEloCsgo for more information");
