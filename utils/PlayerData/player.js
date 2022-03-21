@@ -13,6 +13,15 @@ class player {
   addUsername(username) {
     this.username = username;
   }
+  getAllString(outputParameter){
+    let output = "echo";
+    switch(outputParameter){
+      case "say": output = "say"; break;
+      case "echo": output = "echo"; break;
+      case "tsay": output = "tsay"; break;
+    }
+    return `${output} ${this.steamusername}, MM-Rank: ${this.mmRank} / Faceit: ${ singePlayer.elo == "no elo" ? "No Acc found" : singePlayer.elo}`;
+  }
 }
 
 module.exports = player;

@@ -1,9 +1,10 @@
 const config = require("./config.json");
 const Telnet = require("telnet-client");
-const game = require("./utils/steamid");
-const faceit = require("./utils/faceit");
-const mm = require("./utils/mm");
+const game = require("./utils/PlayerData/steamid");
+const faceit = require("./utils/PlayerData/faceit");
+const mm = require("./utils/PlayerData/mm");
 const example = require("./utils/example");
+const message = require("./utils/Messages/messageBuilder");
 const RETRY_TIMEOUT = 10 * 1000;
 
 async function listen() {
@@ -67,14 +68,10 @@ async function initMessage(playerList, con) {
 
 }
 
-async function sendMessage(con, singePlayer) {
+async function sendMessage(con, singlePlayer) {
   try {
     await con.exec(
-      `say ${singePlayer.steamusername}, MM-Rank: ${
-        singePlayer.mmRank
-      } / Faceit: ${
-        singePlayer.elo == "no elo" ? "No Acc found" : singePlayer.elo
-      }`
+      `${message.buildOutput(singlePlayer, "tsay", "full")}`
     );
   } catch (e) {}
 }
