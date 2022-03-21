@@ -29,53 +29,94 @@ async function listen() {
   const socket = connection.getSocket();
   socket.on("data", async (data) => {
     var msg = data.toString("utf8");
-    if (msg.includes("STEAM_") ) {
-      if(process.env.NODE_ENV.trim() !== "production"){
-       var msg = example.statusmessage3;
-      }else {
-        var msg = data.toString("utf8");
-      }
-      let playerList = [];
-      ids = game.getSteamIds(msg);
-      let url = mm.createUrl(ids);
-      let steamusernames = game.getSteamUsername(msg);
-      let players = await mm.getMMRank(url, ids, steamusernames);
-       faceit.getElo(players).then((newPlayers) => {
-        for (let i = 0; i < newPlayers.length; i++) {
-          playerList.push(newPlayers[i]);
-        } 
-        initMessage(playerList, connection);
-       }).catch((err) => {});
-    }else if(msg.includes("getelo")) {
+
+    if(msg.includes("getelo")) {
       try {
         await connection.exec("status");
       } catch (e) {
         console.log("error in status");
       }
+      
+        if(process.env.NODE_ENV.trim() !== "production"){
+         var msg = example.statusmessage4;
+        }else {
+          var msg = data.toString("utf8");
+        }
+        let playerList = [];
+        ids = game.getSteamIds(msg);
+        let url = mm.createUrl(ids);
+        let steamusernames = game.getSteamUsername(msg);
+        let players = await mm.getMMRank(url, ids, steamusernames);
+         faceit.getElo(players).then((newPlayers) => {
+          for (let i = 0; i < newPlayers.length; i++) {
+            playerList.push(newPlayers[i]);
+          } 
+          consoleMessage(playerList, connection);
+         }).catch((err) => {});
+      
+    
+    }
+    else if(msg.includes("printelo")) {
+      try {
+        await connection.exec("status");
+      } catch (e) {
+        console.log("error in status");
+      }
+        if(process.env.NODE_ENV.trim() !== "production"){
+         var msg = example.statusmessage4;
+        }else {
+          var msg = data.toString("utf8");
+        }
+        let playerList = [];
+        ids = game.getSteamIds(msg);
+        let url = mm.createUrl(ids);
+        let steamusernames = game.getSteamUsername(msg);
+        let players = await mm.getMMRank(url, ids, steamusernames);
+         faceit.getElo(players).then((newPlayers) => {
+          for (let i = 0; i < newPlayers.length; i++) {
+            playerList.push(newPlayers[i]);
+          } 
+          printMessage(playerList, connection);
+         }).catch((err) => {});
+       
+      
     } 
   });
 }
 
-async function initMessage(playerList, con) {
+async function consoleMessage(playerList, con) {
+  var message = "";
     for (let i = 0; i < playerList.length; i++) {
-      await sendMessage(con, playerList[i]);
-      setTimeout(() => {},550);
+      message= message + `echo ${playerList[i].steamusername}, MM-Rank: ${
+        playerList[i].mmRank
+      } / Faceit: ${
+        playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
+      } \n`
+      //await sendMessage(con, playerList[i]);
+      //setTimeout(() => {},1000);
     }
-   try {
-    await con.exec("say visit github.com/bonbonn1912/ConsoleEloCsgo for more information");
-   }catch(e){}
+    sendMessage(con,0, message);
+    sendMessage(con,1000, "echo visit github.com/bonbonn1912/ConsoleEloCsgo for more information");
 
 }
 
-async function sendMessage(con, singePlayer) {
-  try {
-    await con.exec(
-      `say ${singePlayer.steamusername}, MM-Rank: ${
-        singePlayer.mmRank
+async function printMessage(playerList, con) {
+    for (let i = 0; i < playerList.length; i++) {
+      
+      await sendMessage(con,1000, `say ${playerList[i].steamusername}, MM-Rank: ${
+        playerList[i].mmRank
       } / Faceit: ${
-        singePlayer.elo == "no elo" ? "No Acc found" : singePlayer.elo
-      }`
-    );
+        playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
+      }`);
+    }
+    sendMessage(con,1000, "say visit github.com/bonbonn1912/ConsoleEloCsgo for more information");
+
+}
+
+async function sendMessage(con,delay,  message) {
+  try {
+    await con.exec(message);
+    setTimeout(() => {},delay);
   } catch (e) {}
 }
 
