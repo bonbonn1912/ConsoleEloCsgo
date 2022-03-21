@@ -19,19 +19,25 @@ function getSteamUsername(statusmessage){
   for (let i = 0; i < lines.length; i++) {
     var splittet = lines[i].split(/#\s+\d+\s\d+\s"/);
     if (splittet[1] != undefined) {
-      usernames.push(splittet[1].substring(0,splittet[1].lastIndexOf('"')));
+      var name = splittet[1].substring(0,splittet[1].lastIndexOf('"'));
+      if (!usernames.includes(name)){ //unclear on name duplication
+        usernames.push(name);
+      }
+      
     }
   }
   return usernames;
 }
 
- function getSteamIds(statusmessage){
+function getSteamIds(statusmessage){
   let steamids = [];
   let lines = getPlayerLines(statusmessage);
   for (let i = 0; i < lines.length; i++) {
     var splittet = lines[i].split(/#\s+\d+\s\d+\s"/);
     if (splittet[1] != undefined) {
-      steamids.push(splittet[1].substring(splittet[1].lastIndexOf('"'),splittet[1].length).split(" ")[1]);
+      var id = splittet[1].substring(splittet[1].lastIndexOf('"'),splittet[1].length).split(" ")[1];
+      if (!steamids.includes(id))
+      steamids.push(id);
     }
   }
   return steamids;
