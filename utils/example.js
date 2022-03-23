@@ -108,7 +108,7 @@ version : 1.38.2.2 secure
 os      :  Linux
 type    :  official dedicated
 map     : de_overpass
-players : 7 humans, 1 bots (7/0 max) (not hibernating)
+players : 9 humans, 1 bots (7/0 max) (not hibernating)
 
 # userid name uniqueid connected ping loss state rate
 # 122 2 "Salatiga" STEAM_1:1:228815168 05:06 47 0 active 786432
@@ -119,6 +119,8 @@ players : 7 humans, 1 bots (7/0 max) (not hibernating)
 # 113 7 "Huoranturpa kiinni" STEAM_1:0:18712259 12:12 31 0 active 786432
 # 72 8 "hEADSHot" STEAM_1:1:504693672 34:07 57 0 active 196608
 #121 "Will" BOT active 64
+# 51 8 "//////////////" STEAM_1:1:106678540 00:13 93 56 spawning 196608
+# 51 8 "\\\\\\\\\\\\\" STEAM_1:0:199935895 00:13 93 56 spawning 196608
 #end`
 
 module.exports = {
