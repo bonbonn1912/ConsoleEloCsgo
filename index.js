@@ -72,14 +72,14 @@ async function listen() {
           }
         })
         .catch((err) => {});
-    } else if (msg.includes("getelo")) {
+    } else if (msg.includes(`Unknown command "getelo"`)) {
       try {
         current_cmd = "getelo";
         await connection.exec("status");
       } catch (e) {
         console.log("status -> " + e);
       }
-    } else if (msg.includes("printelo")) {
+    } else if (msg.includes(`Unknown command "printelo"`)) {
       try {
         current_cmd = "printelo";
         await connection.exec("status");
