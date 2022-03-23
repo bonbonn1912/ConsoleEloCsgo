@@ -31,7 +31,7 @@ async function listen() {
   var msg_log = "";
   socket.on("data", async (data) => {
     var msg = data.toString("utf8");
-    if (process.env.NODE_ENV.trim() !== "production" && current_cmd != "") {
+    if (process.env.NODE_ENV !== "production" && current_cmd != "") {
       var msg = example.statusmessage6;
     }
     if (
@@ -48,12 +48,21 @@ async function listen() {
       msg_log.includes("# userid name uniqueid connected ping loss state rate")
     ) {
       let playerList = [];
+      let faceitList = [];
       ids = game.getSteamIds(msg_log);
-      let url = mm.createUrl(ids);
       let steamusernames = game.getSteamUsername(msg_log);
-      let players = await mm.getMMRank(url, ids, steamusernames);
+      for (let i = 0; i< ids.length; i+=10){
+        const idslice = ids.slice(i,i+10);
+        const nameslice = steamusernames.slice(i,i+10);
+        let url = mm.createUrl(idslice);
+        
+        let players = await mm.getMMRank(url, idslice, nameslice);
+        console.log(players);
+        faceitList = faceitList.concat(players);
+      }
+      console.log(faceitList);
       faceit
-        .getElo(players)
+        .getElo(faceitList)
         .then((newPlayers) => {
           for (let i = 0; i < newPlayers.length; i++) {
             playerList.push(newPlayers[i]);
