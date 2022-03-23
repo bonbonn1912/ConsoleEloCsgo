@@ -102,10 +102,30 @@ players : 7 humans, 1 bots (7/0 max) (not hibernating)
 # 342 14 "Arhhh" STEAM_1:0:199935895 01:11 69 0 active 196608
 #end`
 
+let statusmessage6 = `Connected to =[A:1:1500943368:19883]:0
+hostname: Valve CS:GO EU North Server (srcds6008-sto1.186.13)
+version : 1.38.2.2 secure
+os      :  Linux
+type    :  official dedicated
+map     : de_overpass
+players : 7 humans, 1 bots (7/0 max) (not hibernating)
+
+# userid name uniqueid connected ping loss state rate
+# 122 2 "Salatiga" STEAM_1:1:228815168 05:06 47 0 active 786432
+# 37 3 "-" STEAM_1:1:591634713 59:28 44 0 active 24576
+# 123 4 "t0mN" STEAM_1:1:102541464 01:42 54 0 active 128000
+# 59 5 "RiVaL #justGOD" STEAM_1:0:556977845 42:12 78 0 active 128000
+# 124 6 "Бешеный Персик" STEAM_1:0:175830654 00:30 47 0 active 196608
+# 113 7 "Huoranturpa kiinni" STEAM_1:0:18712259 12:12 31 0 active 786432
+# 72 8 "hEADSHot" STEAM_1:1:504693672 34:07 57 0 active 196608
+#121 "Will" BOT active 64
+#end`
+
 module.exports = {
     statusmessage1,
     statusmessage2,
     statusmessage3,
     statusmessage4,
-    statusmessage5
+    statusmessage5,
+    statusmessage6
 }

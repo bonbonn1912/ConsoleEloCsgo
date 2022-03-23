@@ -32,7 +32,7 @@ async function listen() {
   socket.on("data", async (data) => {
     var msg = data.toString("utf8");
     if (process.env.NODE_ENV.trim() !== "production" && current_cmd != "") {
-      var msg = example.statusmessage5;
+      var msg = example.statusmessage6;
     }
     if (
       (msg.includes("STEAM_") || msg.match(/players : ([\d.]+) humans, /)) &&
