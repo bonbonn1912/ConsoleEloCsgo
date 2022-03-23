@@ -15,6 +15,6 @@ Prerequisites: NodeJs installed on your PC (check with node -v in your cmd)
 ## Usage
     Add the following launch option to CS:GO  
      -netconport 2121  
-     type "status" or "getelo" into the console so see the results. 
+     type "printelo" or "getelo" into the console so see the results. 
      
 ## There is no risk of being banned
