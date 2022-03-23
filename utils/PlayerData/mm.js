@@ -8,7 +8,6 @@ function createUrl(steamIDs) {
     let sanitzedID = steamIDs[i].replaceAll(":", "%3A");
     basisUrl += "&data%5B" + i + "%5D%5B1%5D=" + sanitzedID;
   }
-
   return basisUrl;
 }
 

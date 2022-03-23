@@ -35,20 +35,18 @@ async function listen() {
       var msg = example.statusmessage6;
     }
     if (
-      (msg.includes("STEAM_") || msg.match(/players : ([\d.]+) humans, /)) &&
+      (msg.includes("STEAM_") ||
+        msg.includes(
+          "# userid name uniqueid connected ping loss state rate"
+        )) &&
       current_cmd != ""
     ) {
-      msg_log = msg_log + msg;
+      msg_log = msg_log + msg + "\n";
     }
     if (
-      msg.includes(
-        "#end") &&
-          msg_log.includes(
-            "# userid name uniqueid connected ping loss state rate"
-          )
-      
+      msg.includes("#end") &&
+      msg_log.includes("# userid name uniqueid connected ping loss state rate")
     ) {
-      //var players = msg.match(/([\d.]+) *humans/)[1];
       let playerList = [];
       ids = game.getSteamIds(msg_log);
       let url = mm.createUrl(ids);
@@ -72,14 +70,20 @@ async function listen() {
           }
         })
         .catch((err) => {});
-    } else if (msg.includes(`Unknown command "getelo"`) || msg.includes("Unknown command: getelo")) {
+    } else if (
+      msg.includes(`Unknown command "getelo"`) ||
+      msg.includes("Unknown command: getelo")
+    ) {
       try {
         current_cmd = "getelo";
         await connection.exec("status");
       } catch (e) {
         console.log("status -> " + e);
       }
-    } else if (msg.includes(`Unknown command "printelo"`) || msg.includes("Unknown command: printelo")) {
+    } else if (
+      msg.includes(`Unknown command "printelo"`) ||
+      msg.includes("Unknown command: printelo")
+    ) {
       try {
         current_cmd = "printelo";
         await connection.exec("status");
@@ -95,7 +99,7 @@ async function consoleMessage(playerList, con) {
   for (let i = 0; i < playerList.length; i++) {
     message =
       message +
-      `echo ${playerList[i].steamusername} -> MM-Rank: ${
+      `echo "${playerList[i].steamusername} -> MM-Rank: ${
         playerList[i].mmRank
       } | Faceit: ${
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
@@ -109,17 +113,17 @@ async function printMessage(playerList, con) {
   for (let i = 0; i < playerList.length; i++) {
     await sendMessage(
       con,
-      500,
-      `say ${playerList[i].steamusername} -> MM-Rank: ${
+      0,
+      `say "${playerList[i].steamusername} -> MM-Rank: ${
         playerList[i].mmRank
       } | Faceit: ${
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
-      }`
+      } `
     );
   }
   sendMessage(
     con,
-    500,
+    0,
     "say visit github.com/bonbonn1912/ConsoleEloCsgo for more information"
   );
 }

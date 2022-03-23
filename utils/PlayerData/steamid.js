@@ -15,9 +15,8 @@ function getSteamUsername(statusmessage) {
   for (let i = 0; i < lines.length; i++) {
     var splittet = lines[i].split(/#\s+\d+\s\d+\s"/);
     if (splittet[1] != undefined) {
-      var name = splittet[1].substring(0, splittet[1].lastIndexOf('"'));
-        usernames.push(name);
-      
+      var name = splittet[1].substring(0, splittet[1].lastIndexOf('"')); 
+      usernames.push(`${name}`);
     }
   }
   return usernames;
