@@ -34,53 +34,57 @@ async function listen() {
     if (process.env.NODE_ENV.trim() !== "production" && current_cmd != "") {
       var msg = example.statusmessage5;
     }
-    if (msg.includes("getelo")) {
+    if (
+      (msg.includes("STEAM_") || msg.match(/players : ([\d.]+) humans, /)) &&
+      current_cmd != ""
+    ) {
+      msg_log = msg_log + msg;
+    }
+    if (
+      msg.includes(
+        "#end") &&
+          msg_log.includes(
+            "# userid name uniqueid connected ping loss state rate"
+          )
+      
+    ) {
+      //var players = msg.match(/([\d.]+) *humans/)[1];
+      let playerList = [];
+      ids = game.getSteamIds(msg_log);
+      let url = mm.createUrl(ids);
+      let steamusernames = game.getSteamUsername(msg_log);
+      let players = await mm.getMMRank(url, ids, steamusernames);
+      faceit
+        .getElo(players)
+        .then((newPlayers) => {
+          for (let i = 0; i < newPlayers.length; i++) {
+            playerList.push(newPlayers[i]);
+          }
+          if (current_cmd == "getelo") {
+            consoleMessage(playerList, connection);
+            current_cmd = "";
+            msg_log = "";
+          }
+          if (current_cmd == "printelo") {
+            printMessage(playerList, connection);
+            current_cmd = "";
+            msg_log = "";
+          }
+        })
+        .catch((err) => {});
+    } else if (msg.includes("getelo")) {
       try {
         current_cmd = "getelo";
         await connection.exec("status");
       } catch (e) {
-        console.log("error in status\n" + e);
+        console.log("status -> " + e);
       }
     } else if (msg.includes("printelo")) {
       try {
         current_cmd = "printelo";
         await connection.exec("status");
       } catch (e) {
-        console.log("error in status\n" + e);
-      }
-    }
-    if (
-      (msg.includes("STEAM_") || msg.match(/players : ([\d.]+) humans, /)) &&
-      current_cmd != ""
-    ) {
-      msg_log = msg_log + msg;
-      var players = msg.match(/([\d.]+) *humans/)[1];
-      if (msg.includes("#end")) {
-        console.log(msg_log);
-        let playerList = [];
-        ids = game.getSteamIds(msg_log);
-        let url = mm.createUrl(ids);
-        let steamusernames = game.getSteamUsername(msg_log);
-        let players = await mm.getMMRank(url, ids, steamusernames);
-        faceit
-          .getElo(players)
-          .then((newPlayers) => {
-            for (let i = 0; i < newPlayers.length; i++) {
-              playerList.push(newPlayers[i]);
-            }
-            console.log(playerList);
-            if (current_cmd == "getelo") {
-              consoleMessage(playerList, connection);
-              current_cmd = "";
-              msg_log = "";
-            }
-            if (current_cmd == "printelo") {
-              printMessage(playerList, connection);
-              current_cmd = "";
-              msg_log = "";
-            }
-          })
-          .catch((err) => {});
+        console.log("status -> " + e);
       }
     }
   });
@@ -91,9 +95,9 @@ async function consoleMessage(playerList, con) {
   for (let i = 0; i < playerList.length; i++) {
     message =
       message +
-      `echo ${playerList[i].steamusername}, MM-Rank: ${
+      `echo ${playerList[i].steamusername} -> MM-Rank: ${
         playerList[i].mmRank
-      } / Faceit: ${
+      } | Faceit: ${
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
       } \n`;
   }
@@ -105,17 +109,17 @@ async function printMessage(playerList, con) {
   for (let i = 0; i < playerList.length; i++) {
     await sendMessage(
       con,
-      1000,
-      `say ${playerList[i].steamusername}, MM-Rank: ${
+      500,
+      `say ${playerList[i].steamusername} -> MM-Rank: ${
         playerList[i].mmRank
-      } / Faceit: ${
+      } | Faceit: ${
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
       }`
     );
   }
   sendMessage(
     con,
-    1000,
+    500,
     "say visit github.com/bonbonn1912/ConsoleEloCsgo for more information"
   );
 }
