@@ -4,7 +4,6 @@ const game = require("./utils/PlayerData/steamid");
 const faceit = require("./utils/PlayerData/faceit");
 const mm = require("./utils/PlayerData/mm");
 const example = require("./utils/example");
-const player = require("./utils/PlayerData/player");
 const RETRY_TIMEOUT = 10 * 1000;
 
 async function listen() {
@@ -27,13 +26,13 @@ async function listen() {
     return;
   }
   const socket = connection.getSocket();
-  var current_cmd = "";
-  var msg_log = "";
+  let current_cmd = "";
+  let msg_log = "";
   socket.on("data", async (data) => {
     var msg = data.toString("utf8");
     if (process.env.NODE_ENV !== "production" && current_cmd != "") {
-      var msg = example.statusmessage6;
-      msg_log = msg;
+       msg = example.statusmessage6;
+       msg_log = msg;
     }
     if (
       (msg.includes("STEAM_") ||
@@ -62,7 +61,7 @@ async function listen() {
         faceitList = faceitList.concat(players);
       }
       faceit
-        .getElo(faceitList)
+        .getElo(faceitList, current_cmd, msg_log)
         .then((newPlayers) => {
           for (let i = 0; i < newPlayers.length; i++) {
             playerList.push(newPlayers[i]);
@@ -153,3 +152,4 @@ async function sendMessage(con, delay, message) {
 }
 
 listen();
+
