@@ -36,9 +36,8 @@ async function listen() {
     }
     if (
       (msg.includes("STEAM_") ||
-        msg.includes(
-          "# userid name uniqueid connected ping loss state rate"
-        )) &&
+        msg.includes("# userid name uniqueid connected ping loss state rate") ||
+        msg.includes("map     :")) &&
       current_cmd != "" &&
       process.env.NODE_ENV == "production"
     ) {
@@ -46,7 +45,11 @@ async function listen() {
     }
     if (
       msg.includes("#end") &&
-      msg_log.includes("# userid name uniqueid connected ping loss state rate")
+      msg_log.includes(
+        "# userid name uniqueid connected ping loss state rate"
+      ) &&
+      msg_log.includes("map     :") &&
+      current_cmd != ""
     ) {
       let playerList = [];
       let faceitList = [];
