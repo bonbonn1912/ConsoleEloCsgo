@@ -33,13 +33,15 @@ async function listen() {
     var msg = data.toString("utf8");
     if (process.env.NODE_ENV !== "production" && current_cmd != "") {
       var msg = example.statusmessage6;
+      msg_log = msg;
     }
     if (
       (msg.includes("STEAM_") ||
         msg.includes(
           "# userid name uniqueid connected ping loss state rate"
         )) &&
-      current_cmd != ""
+      current_cmd != "" &&
+      process.env.NODE_ENV == "production"
     ) {
       msg_log = msg_log + msg + "\n";
     }
@@ -51,16 +53,14 @@ async function listen() {
       let faceitList = [];
       ids = game.getSteamIds(msg_log);
       let steamusernames = game.getSteamUsername(msg_log);
-      for (let i = 0; i< ids.length; i+=10){
-        const idslice = ids.slice(i,i+10);
-        const nameslice = steamusernames.slice(i,i+10);
+      for (let i = 0; i < ids.length; i += 10) {
+        const idslice = ids.slice(i, i + 10);
+        const nameslice = steamusernames.slice(i, i + 10);
         let url = mm.createUrl(idslice);
-        
+
         let players = await mm.getMMRank(url, idslice, nameslice);
-        console.log(players);
         faceitList = faceitList.concat(players);
       }
-      console.log(faceitList);
       faceit
         .getElo(faceitList)
         .then((newPlayers) => {
@@ -85,7 +85,11 @@ async function listen() {
     ) {
       try {
         current_cmd = "getelo";
-        await connection.exec("status");
+        if (process.env.NODE_ENV == "production") {
+          await connection.exec("status");
+        } else {
+          sendMessage(connection, 0, "echo loaded statusmessage for dev");
+        }
       } catch (e) {
         console.log("status -> " + e);
       }
@@ -95,7 +99,11 @@ async function listen() {
     ) {
       try {
         current_cmd = "printelo";
-        await connection.exec("status");
+        if (process.env.NODE_ENV == "production") {
+          await connection.exec("status");
+        } else {
+          sendMessage(connection, 0, "echo loaded statusmessage for dev");
+        }
       } catch (e) {
         console.log("status -> " + e);
       }
