@@ -26,13 +26,25 @@ async function listen() {
     return;
   }
   const socket = connection.getSocket();
+  await sendMessage(connection, 0, "clear");
+  await sendMessage(
+    connection,
+    0,
+    ` echo ------------------------------------- \n
+  echo |..BonBonns Rank Check Tool loaded..| \n
+  echo | Available Commands in official MM | \n
+  echo | [getranks] ---> prints to Console | \n
+  echo | [printranks] -------> to All-Chat | \n
+  echo | [printteamranks] --> to Team-Chat | \n
+  echo ------------------------------------- `
+  );
   let current_cmd = "";
   let msg_log = "";
   socket.on("data", async (data) => {
     var msg = data.toString("utf8");
     if (process.env.NODE_ENV !== "production" && current_cmd != "") {
-       msg = example.statusmessage6;
-       msg_log = msg;
+      msg = example.statusmessage6;
+      msg_log = msg;
     }
     if (
       (msg.includes("STEAM_") ||
@@ -69,24 +81,24 @@ async function listen() {
           for (let i = 0; i < newPlayers.length; i++) {
             playerList.push(newPlayers[i]);
           }
-          if (current_cmd == "getelo") {
+          if (current_cmd == "getranks") {
             consoleMessage(playerList, connection);
             current_cmd = "";
             msg_log = "";
           }
-          if (current_cmd == "printelo") {
-            printMessage(playerList, connection);
+          if (current_cmd == "printranks" || current_cmd == "teamprintranks") {
+            printMessage(playerList, connection, current_cmd);
             current_cmd = "";
             msg_log = "";
           }
         })
         .catch((err) => {});
     } else if (
-      msg.includes(`Unknown command "getelo"`) ||
-      msg.includes("Unknown command: getelo")
+      msg.includes(`Unknown command "getranks"`) ||
+      msg.includes("Unknown command: getranks")
     ) {
       try {
-        current_cmd = "getelo";
+        current_cmd = "getranks";
         if (process.env.NODE_ENV == "production") {
           await connection.exec("status");
         } else {
@@ -96,16 +108,47 @@ async function listen() {
         console.log("status -> " + e);
       }
     } else if (
-      msg.includes(`Unknown command "printelo"`) ||
-      msg.includes("Unknown command: printelo")
+      msg.includes(`Unknown command "printranks"`) ||
+      msg.includes("Unknown command: printranks")
     ) {
       try {
-        current_cmd = "printelo";
+        current_cmd = "printranks";
         if (process.env.NODE_ENV == "production") {
           await connection.exec("status");
         } else {
           sendMessage(connection, 0, "echo loaded statusmessage for dev");
         }
+      } catch (e) {
+        console.log("status -> " + e);
+      }
+    } else if (
+      msg.includes(`Unknown command "teamprintranks"`) ||
+      msg.includes("Unknown command: teamprintranks")
+    ) {
+      try {
+        current_cmd = "teamprintranks";
+        if (process.env.NODE_ENV == "production") {
+          await connection.exec("status");
+        } else {
+          sendMessage(connection, 0, "echo loaded statusmessage for dev");
+        }
+      } catch (e) {
+        console.log("status -> " + e);
+      }
+    } else if (
+      msg.includes(`Unknown command "teamprintelo"`) ||
+      msg.includes("Unknown command: teamprintelo") ||
+      msg.includes(`Unknown command "printelo"`) ||
+      msg.includes("Unknown command: printelo") ||
+      msg.includes(`Unknown command "getelo"`) ||
+      msg.includes("Unknown command: getelo")
+    ) {
+      try {
+        sendMessage(
+          connection,
+          0,
+          "echo please use [ getranks | printranks | printteamranks ] from now on"
+        );
       } catch (e) {
         console.log("status -> " + e);
       }
@@ -124,16 +167,19 @@ async function consoleMessage(playerList, con) {
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
       } \n`;
   }
+  await sendMessage(con, 0, "clear");
   sendMessage(con, 0, message);
   //sendMessage(con,1000, "echo visit github.com/bonbonn1912/ConsoleEloCsgo for more information");
 }
 
-async function printMessage(playerList, con) {
+async function printMessage(playerList, con, current_cmd) {
+  var mode = "say";
+  if (current_cmd == "teamprintranks") mode = "say_team";
   for (let i = 0; i < playerList.length; i++) {
     await sendMessage(
       con,
       0,
-      `say "${playerList[i].steamusername} -> MM-Rank: ${
+      `${mode} "${playerList[i].steamusername} -> MM-Rank: ${
         playerList[i].mmRank
       } | Faceit: ${
         playerList[i].elo == "no elo" ? "No Acc found" : playerList[i].elo
@@ -143,7 +189,7 @@ async function printMessage(playerList, con) {
   sendMessage(
     con,
     0,
-    "say visit github.com/bonbonn1912/ConsoleEloCsgo for more information"
+    `${mode} visit github.com/bonbonn1912/ConsoleEloCsgo for more information`
   );
 }
 
@@ -155,4 +201,3 @@ async function sendMessage(con, delay, message) {
 }
 
 listen();
-
