@@ -6,7 +6,8 @@ Gets faceit elo via the official faceit api and the last known Matchmaking rank 
 This is a very early and error prone version. <br>
 
 ## Prerequisites
-NodeJs needs to be installed on your PC (check with node -v in your cmd) <br>
+NodeJs needs to be installed on your PC (check with node -v in your cmd). <br>
+A PC restart is needed after installation for the npm commands to work. <br>
 Get the latest version of NodeJs here: https://nodejs.org/en/download/
  
 ## Setup
@@ -21,8 +22,9 @@ Get the latest version of NodeJs here: https://nodejs.org/en/download/
  - (optionally the tool can also be launched with `npm run build` after CS:GO has been started)
     
 ## Usage  
-type **getelo** into the console to see the results written in the console. <br>
-type **printelo** into the console to see the results written in chat.
+type **getranks** into the console to see the results written in the console. <br>
+type **printranks** into the console to see the results written in global chat. <br>
+type **teamprintranks** into the console to see the results written in team chat.
 
 #
 **there is no risk of being banned!**
