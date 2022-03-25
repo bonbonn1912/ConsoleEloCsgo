@@ -35,7 +35,7 @@ async function listen() {
   echo | Available Commands in official MM | \n
   echo | [getranks] ---> prints to Console | \n
   echo | [printranks] -------> to All-Chat | \n
-  echo | [printteamranks] --> to Team-Chat | \n
+  echo | [teamprintranks] --> to Team-Chat | \n
   echo ------------------------------------- `
   );
   let current_cmd = "";
