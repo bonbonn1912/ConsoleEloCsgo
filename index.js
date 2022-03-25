@@ -147,7 +147,7 @@ async function listen() {
         sendMessage(
           connection,
           0,
-          "echo please use [ getranks | printranks | printteamranks ] from now on"
+          "echo please use [ getranks | printranks | teamprintranks ] from now on"
         );
       } catch (e) {
         console.log("status -> " + e);
