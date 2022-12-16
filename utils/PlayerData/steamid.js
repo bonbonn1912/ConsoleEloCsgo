@@ -37,7 +37,23 @@ function getSteamIds(statusmessage) {
   return steamids;
 }
 
+function getPlayerObjects(statusmessage) {
+  let steamUsernames = getSteamUsername(statusmessage);
+  let steamIds = getSteamIds(statusmessage)
+  let objects = [];
+  if (steamIds.length === steamUsernames.length) {
+    for (let i = 0; i < steamIds.length; i++) {
+      objects.push({
+        id: steamIds[i],
+        username: steamUsernames[i],
+      });
+    }
+    return objects
+  }
+};
+
 module.exports = {
   getSteamIds,
   getSteamUsername,
+  getPlayerObjects
 };

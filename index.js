@@ -4,6 +4,7 @@ const game = require("./utils/PlayerData/steamid");
 const faceit = require("./utils/PlayerData/faceit");
 const mm = require("./utils/PlayerData/mm");
 const example = require("./utils/example");
+const { default: axios } = require("axios");
 const RETRY_TIMEOUT = 10 * 1000;
 
 async function listen() {
@@ -86,6 +87,10 @@ async function listen() {
             current_cmd = "";
             msg_log = "";
           }
+          if (current_cmd == "openranks") {
+            getUrl(msg_log, connection);
+            current_cmd = "";
+          }
           if (current_cmd == "printranks" || current_cmd == "teamprintranks") {
             printMessage(playerList, connection, current_cmd);
             current_cmd = "";
@@ -131,6 +136,22 @@ async function listen() {
           await connection.exec("status");
         } else {
           sendMessage(connection, 0, "echo loaded statusmessage for dev");
+        }
+      } catch (e) {
+        console.log("status -> " + e);
+      }
+    } else if (
+      msg.includes(`Unknown command "openranks"`) ||
+      msg.includes("Unknown command: openranks")
+    ) {
+      try {
+        current_cmd = "openranks";
+        if (process.env.NODE_ENV == "production") {
+          await connection.exec("status");
+          getUrl(msg_log);
+        } else {
+          getUrl(msg_log);
+          // sendMessage(connection, 0, "echo loaded statusmessage for dev");
         }
       } catch (e) {
         console.log("status -> " + e);
@@ -198,6 +219,23 @@ async function sendMessage(con, delay, message) {
     await con.exec(message);
     setTimeout(() => {}, delay);
   } catch (e) {}
+}
+
+const open = require('open');
+
+async function getUrl(statusMessage, con) {
+  let playerObjects = game.getPlayerObjects(statusMessage);
+  if (playerObjects.length > 0) {
+    try{
+      axios.post("https://csgo-lc-production.up.railway.app/api/v1/consoleelo", {
+        data: {player: playerObjects}
+      }).then(async (data) =>{
+        open(data.data.url);
+       // console.log(data.data.url)
+      })
+    }catch(e){}  
+  }
+   
 }
 
 listen();
