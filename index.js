@@ -37,6 +37,7 @@ async function listen() {
   echo | [getranks] ---> prints to Console | \n
   echo | [printranks] -------> to All-Chat | \n
   echo | [teamprintranks] --> to Team-Chat | \n
+  echo | [openranks] --> to open MatchRoom | \n
   echo ------------------------------------- `
   );
   let current_cmd = "";
@@ -90,6 +91,7 @@ async function listen() {
           if (current_cmd == "openranks") {
             getUrl(msg_log, connection);
             current_cmd = "";
+            msg_log = "";
           }
           if (current_cmd == "printranks" || current_cmd == "teamprintranks") {
             printMessage(playerList, connection, current_cmd);
