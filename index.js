@@ -17,6 +17,7 @@ async function listen() {
   };
   try {
     await connection.connect(params);
+    console.log(`Successfully connected to the game on ${params.host}:${params.port}`);
   } catch (e) {
     console.log(
       `Error: Unable to connect to ${params.host}:${params.port}.\nMake sure that "-netconport ${params.port}" is added to the CS:GO launch options and that the game is running.\nRetrying in 10 seconds...`
@@ -150,9 +151,9 @@ async function listen() {
         current_cmd = "openranks";
         if (process.env.NODE_ENV == "production") {
           await connection.exec("status");
-          getUrl(msg_log);
+          //getUrl(msg_log);
         } else {
-          getUrl(msg_log);
+          //getUrl(msg_log);
           // sendMessage(connection, 0, "echo loaded statusmessage for dev");
         }
       } catch (e) {
